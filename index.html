@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>إنت أي شخصية في جروب الواتساب؟</title>
+<meta name="description" content="اختبار سريع من 6 أسئلة يقولك إنت أي نوع في جروب صحابك. جرّبه وابعته للجروب!">
+<meta property="og:title" content="إنت أي شخصية في جروب الواتساب؟">
+<meta property="og:description" content="اختبار سريع من 6 أسئلة. جرّبه وابعته للجروب!">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e6f2ee;--card:#fff;--ink:#12302b;--mute:#5b7872;--in:#fff;--out:#d5f5c9;--accent:#ff6b4a;--accent-ink:#fff;--head:#0d4a40}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1c19;--card:#182b27;--ink:#e8f3f0;--mute:#9bb5af;--in:#203630;--out:#1f5a46;--accent:#ff7d5f;--accent-ink:#1a0b07;--head:#0a2b25}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:Cairo,Tahoma,Arial,sans-serif;line-height:1.7;min-height:100vh}
+.wrap{max-width:520px;margin:0 auto;padding:0 16px 40px}
+header{background:var(--head);color:#fff;padding:14px 16px;margin:0 -16px 20px;font-weight:700;display:flex;align-items:center;gap:10px}
+header span{font-size:1.4rem}
+.bubble{padding:12px 16px;border-radius:18px;max-width:92%;margin:0 0 12px;word-wrap:break-word}
+.in{background:var(--in);border-top-right-radius:4px}
+.out{background:var(--out);border-top-left-radius:4px;margin-inline-start:auto}
+h1{font-size:1.7rem;line-height:1.35;margin:8px 0 12px;font-weight:900}
+p{margin:0 0 10px}
+button{font-family:inherit;font-size:1rem;cursor:pointer;color:inherit}
+.btn{display:block;width:100%;background:var(--accent);color:var(--accent-ink);border:0;border-radius:14px;padding:14px;font-weight:700;margin-top:10px}
+.btn.alt{background:transparent;color:var(--ink);border:2px solid var(--mute)}
+.opt{display:block;width:100%;text-align:right;background:var(--out);border:2px solid transparent;border-radius:18px;border-top-left-radius:4px;padding:12px 16px;margin:0 0 10px}
+.opt:hover{border-color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.bar{height:6px;background:var(--in);border-radius:6px;margin-bottom:16px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.count{color:var(--mute);font-size:.9rem;margin-bottom:6px}
+.res{text-align:center;background:var(--card);border-radius:22px;padding:24px 18px;margin-bottom:14px}
+.res .em{font-size:4rem;line-height:1.2}
+.res h2{margin:6px 0;font-size:1.6rem}
+.note{background:var(--in);border-radius:14px;padding:10px 14px;margin-bottom:14px;font-size:.95rem}
+.hide{display:none}
+footer{text-align:center;color:var(--mute);font-size:.85rem;margin-top:28px}
+.fld{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--card);border:2px solid var(--mute);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+textarea.fld{min-height:70px;resize:vertical}
+.blk{background:var(--in);border-radius:16px;padding:12px;margin-bottom:12px}
+.orow{display:flex;gap:6px}.orow .ot{flex:2}.orow .os{flex:1.3}
+.btn.sm{width:auto;display:inline-block;padding:8px 14px;margin:4px 0}
+.err{color:var(--accent);font-weight:700;margin:8px 0}
+h3{margin:18px 0 8px}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><span>💬</span><b id="hdr"></b></header>
+
+<section id="s-start">
+  <div id="note" class="note hide"></div>
+  <div class="bubble in"><h1 id="t1"></h1><p id="t2"></p></div>
+  <button class="btn" id="go"></button>
+  <button class="btn alt" id="mkgo">اعمل اختبارك بنفسك ✍️</button>
+</section>
+
+<section id="s-quiz" class="hide">
+  <div class="count" id="cnt"></div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="bubble in" id="q"></div>
+  <div id="opts"></div>
+</section>
+
+<section id="s-res" class="hide">
+  <div class="res" id="card"></div>
+  <button class="btn" id="wa"></button>
+  <button class="btn alt" id="cp"></button>
+  <button class="btn alt" id="img"></button>
+  <button class="btn alt" id="again"></button>
+  <button class="btn alt" id="mkgo2">اعمل اختبارك بنفسك ✍️</button>
+</section>
+
+<section id="s-make" class="hide">
+  <div class="bubble in"><h1>اعمل اختبارك بنفسك</h1><p>اكتب اسم الاختبار، وشخصيات النتائج، والأسئلة. بعدها هتاخد رابط تبعته لأصحابك. من غير حدود لعدد الأسئلة أو الشخصيات. ومتكتبش حاجة مسيئة لحد.</p></div>
+  <h3>اسم الاختبار</h3>
+  <input class="fld" id="bt" maxlength="80" placeholder="مثلاً: إنت أي نوع مسافر؟">
+  <h3>الشخصيات (النتائج)</h3>
+  <div id="bp"></div>
+  <button type="button" class="btn alt sm" id="addp">+ شخصية</button>
+  <h3>الأسئلة</h3>
+  <div id="bq"></div>
+  <button type="button" class="btn alt sm" id="addq">+ سؤال</button>
+  <div class="err" id="err"></div>
+  <button class="btn" id="mk">إنشاء الاختبار</button>
+  <button class="btn alt" id="mkback">رجوع</button>
+</section>
+
+<section id="s-link" class="hide">
+  <div class="bubble in"><h1>اختبارك جاهز 🎉</h1><p>ابعت الرابط لأصحابك. الاختبار كله جوّه الرابط، فاحتفظ بيه.</p></div>
+  <input class="fld" id="lnk" readonly>
+  <div class="err" id="warn"></div>
+  <button class="btn" id="lwa">ابعته على واتساب 📲</button>
+  <button class="btn alt" id="lcp">انسخ الرابط</button>
+  <button class="btn alt" id="ltry">جرّب اختبارك</button>
+  <button class="btn alt" id="ledit">رجوع للتعديل</button>
+</section>
+
+<footer id="foot"></footer>
+</div>
+
+<script>
+/* ============================================================
+   ✏️ المكان الوحيد اللي هتعدّل فيه: النصوص هنا بس
+   (غيّر الكلام اللي بين علامات الاقتباس " " وماتمسحش علامات الاقتباس ولا الفواصل ,)
+   ============================================================ */
+const TEXT = {
+  header: "جروب الصحاب",
+  title: "إنت أي شخصية في جروب الواتساب؟",
+  intro: "6 أسئلة بس، وهنقولك إنت أي نوع في الجروب. جاهز؟",
+  startBtn: "ابدأ الاختبار",
+  question: "سؤال",           // هتظهر "سؤال 1 من 6"
+  shareBtn: "ابعت النتيجة للجروب 📲",
+  copyBtn: "انسخ الرابط",
+  copied: "تم النسخ ✅",
+  imgBtn: "نزّل كارت النتيجة 🖼️",
+  againBtn: "اعمل الاختبار تاني",
+  friendNote: "صاحبك طلع: ",    // هتظهر لما حد يفتح رابط نتيجة صاحبه
+  friendNote2: " — جرّب إنت طلعت إيه!",
+  shareText: "أنا طلعت في جروب الواتساب: ",  // نص الرسالة اللي بتتبعت
+  footer: "للتواصل مع المطور واقتراح افكار : 01221082412"
+};
+
+/* الشخصيات: id (حرف واحد) - إيموجي - اسم - وصف - لون الكارت */
+let PERSONAS = {
+  a: {emoji:"👻", name:"الشبح", desc:"بتقرا كل حاجة في الجروب بس عمرك ما بترد. الكل عارف إنك موجود، بس محدش شافك.", color:"#5b6c8f"},
+  b: {emoji:"🎙️", name:"صاحب الفويسات", desc:"أي رسالة عندك لازم تبقى فويس 4 دقايق. الناس بتسمعك على سرعة 2x وبتحبك برضه.", color:"#e0782f"},
+  c: {emoji:"🌹", name:"سفير صباح الخير", desc:"كل صباح ورد وآية ودعاء، وكل جمعة سلسلة. الجروب من غيرك مش هيبقى نفس الدفا.", color:"#c2456b"},
+  d: {emoji:"🤫", name:"الصامت الخطير", desc:"ساكت أسبوع، وفجأة تعليق واحد يقفل الجروب ويخلي الكل يضحك لساعة.", color:"#3f7f5f"},
+  e: {emoji:"😂", name:"مدير الضحك", desc:"عندك ستيكر وميم لكل موقف، وبتحوّل أي خناقة لنكتة. الجروب بيعيش بيك.", color:"#8a5cc2"}
+};
+
+/* الأسئلة: كل سؤال له 4 أو 5 اختيارات، وكل اختيار مربوط بحرف الشخصية */
+let QUESTIONS = [
+  { q:"حد بعت رسالة في الجروب الساعة 7 الصبح. رد فعلك؟",
+    o:[["أقرأها وأطنّش","a"],["أرد بفويس طويل","b"],["أرد: صباح الخير يا جماعة 🌹","c"],["أسكت وأستنى الموضوع يكبر","d"],["أبعت ستيكر مضحك","e"]] },
+  { q:"فيه خناقة في الجروب. هتعمل إيه؟",
+    o:[["أكتم الإشعارات","a"],["أبعت فويس أشرح وجهة نظري","b"],["أبعت: صلّوا على النبي يا جماعة","c"],["أراقب في صمت","d"],["أبعت ميم يهدّي الجو","e"]] },
+  { q:"حد سأل: نتقابل فين النهاردة؟",
+    o:[["أشوف الرسالة بعد 3 ساعات","a"],["أرد بفويس 3 دقايق","b"],["أقترح مكان وأبعت دعاء","c"],["أقول: أنا معاكم، وبس","d"],["أبعت ميم: مش عارف","e"]] },
+  { q:"إشعارات الجروب عندك:",
+    o:[["مكتومة من سنة","a"],["شغالة وبسمع الفويسات بسرعة 1.5","b"],["شغالة عشان ماتفوتنيش رسالة","c"],["مفعّلة بس مبفتحش","d"],["شغالة عشان الضحك","e"]] },
+  { q:"آخر رسالة بعتّها في الجروب كانت:",
+    o:[["تمام","a"],["فويس 4 دقايق","b"],["صورة ورد وآية","c"],["😂 بعد 3 أيام من النكتة","d"],["ميم","e"]] },
+  { q:"لو الجروب اتقفل بكرة، هتعمل إيه؟",
+    o:[["مش هلاحظ أصلاً","a"],["هعمل جروب جديد وأبعت فويس","b"],["هبعت رسالة وداع طويلة","c"],["هقول: كده؟ وأمشي","d"],["هعمل ميم عن الموضوع","e"]] }
+];
+/* ============================================================
+   ⛔ من هنا لتحت كود الموقع، ماتعدّلش فيه
+   ============================================================ */
+const $ = id => document.getElementById(id);
+const show = id => ["s-start","s-quiz","s-res","s-make","s-link"].forEach(s => $(s).classList.toggle("hide", s !== id));
+let i = 0, score = {}, winner = "a", code = "";
+function hashFor(r){ const a = []; if (code) a.push("quiz=" + code); if (r) a.push("r=" + r); return a.length ? "#" + a.join("&") : ""; }
+function setHash(r){ history.replaceState(null, "", location.pathname + hashFor(r)); }
+
+$("hdr").textContent = TEXT.header; $("t1").textContent = TEXT.title; $("t2").textContent = TEXT.intro;
+$("go").textContent = TEXT.startBtn; $("wa").textContent = TEXT.shareBtn; $("cp").textContent = TEXT.copyBtn;
+$("img").textContent = TEXT.imgBtn; $("again").textContent = TEXT.againBtn; $("foot").textContent = TEXT.footer;
+document.title = TEXT.title;
+
+function start(){ i = 0; score = {}; Object.keys(PERSONAS).forEach(k => score[k] = 0); setHash(""); ask(); show("s-quiz"); }
+function ask(){
+  const Q = QUESTIONS[i];
+  $("cnt").textContent = TEXT.question + " " + (i + 1) + " من " + QUESTIONS.length;
+  $("bar").style.width = (i / QUESTIONS.length * 100) + "%";
+  $("q").textContent = Q.q;
+  $("opts").innerHTML = "";
+  Q.o.forEach(([txt, k]) => {
+    const b = document.createElement("button");
+    b.className = "opt"; b.textContent = txt;
+    b.onclick = () => { score[k]++; i++; i < QUESTIONS.length ? ask() : finish(); };
+    $("opts").appendChild(b);
+  });
+  window.scrollTo(0, 0);
+}
+function finish(){
+  winner = Object.keys(score).reduce((m, k) => score[k] > score[m] ? k : m, Object.keys(score)[0]);
+  setHash(winner);
+  showResult(winner); show("s-res"); window.scrollTo(0, 0);
+}
+function showResult(k){
+  const p = PERSONAS[k];
+  $("card").style.borderTop = "8px solid " + p.color;
+  $("card").innerHTML = '<div class="em">' + p.emoji + '</div><h2></h2><p></p>';
+  $("card").querySelector("h2").textContent = p.name;
+  $("card").querySelector("p").textContent = p.desc;
+}
+function link(){ return location.origin + location.pathname + hashFor(winner); }
+$("wa").onclick = () => window.open("https://wa.me/?text=" + encodeURIComponent(TEXT.shareText + PERSONAS[winner].name + " " + PERSONAS[winner].emoji + "\n" + link()), "_blank");
+$("cp").onclick = async () => { try { await navigator.clipboard.writeText(link()); $("cp").textContent = TEXT.copied; setTimeout(() => $("cp").textContent = TEXT.copyBtn, 1800); } catch (e) { prompt("", link()); } };
+$("again").onclick = start; $("go").onclick = start;
+
+/* كارت النتيجة كصورة */
+$("img").onclick = () => {
+  const p = PERSONAS[winner], c = document.createElement("canvas"); c.width = c.height = 1080;
+  const x = c.getContext("2d"); x.direction = "rtl"; x.textAlign = "center";
+  x.fillStyle = p.color; x.fillRect(0, 0, 1080, 1080);
+  x.fillStyle = "rgba(255,255,255,.12)"; x.fillRect(60, 60, 960, 960);
+  x.fillStyle = "#fff";
+  x.font = "200px sans-serif"; x.fillText(p.emoji, 540, 330);
+  x.font = "bold 90px Cairo, Tahoma, sans-serif"; x.fillText(p.name, 540, 480);
+  x.font = "46px Cairo, Tahoma, sans-serif";
+  let line = "", y = 590;
+  p.desc.split(" ").forEach(w => { const t = line ? line + " " + w : w; if (x.measureText(t).width > 800) { x.fillText(line, 540, y); y += 70; line = w; } else line = t; });
+  x.fillText(line, 540, y);
+  x.font = "bold 38px Cairo, Tahoma, sans-serif"; x.fillText(TEXT.title, 540, 960);
+  c.toBlob(async blob => {
+    const f = new File([blob], "result.png", {type: "image/png"});
+    if (navigator.canShare && navigator.canShare({files: [f]})) { try { await navigator.share({files: [f]}); return; } catch (e) {} }
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "result.png"; a.click();
+  });
+};
+
+/* ===== اختبارات من صنع الزوار ===== */
+const PAL = ["#5b6c8f","#e0782f","#c2456b","#3f7f5f","#8a5cc2","#2f8aa8","#b08a1f","#a34a3a"];
+const b64 = u8 => { let t = ""; for (const x of u8) t += String.fromCharCode(x); return btoa(t).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); };
+async function enc(o){
+  let b = new TextEncoder().encode(JSON.stringify(o)), pre = "p";
+  if (window.CompressionStream) { b = new Uint8Array(await new Response(new Blob([b]).stream().pipeThrough(new CompressionStream("deflate-raw"))).arrayBuffer()); pre = "z"; }
+  return pre + b64(b);
+}
+async function dec(s){
+  if (s.length > 20000) throw 0;
+  let b = Uint8Array.from(atob(s.slice(1).replace(/-/g,"+").replace(/_/g,"/")), c => c.charCodeAt(0));
+  if (s[0] === "z") b = new Uint8Array(await new Response(new Blob([b]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).arrayBuffer());
+  return JSON.parse(new TextDecoder().decode(b));
+}
+const isS = x => typeof x === "string";
+function valid(d){
+  return d && isS(d.t) && Array.isArray(d.p) && d.p.length >= 2 && d.p.length <= 50 && d.p.every(x => Array.isArray(x) && x.length === 3 && x.every(isS))
+    && Array.isArray(d.q) && d.q.length >= 1 && d.q.length <= 100
+    && d.q.every(q => Array.isArray(q) && isS(q[0]) && Array.isArray(q[1]) && q[1].length >= 2 && q[1].every(o => Array.isArray(o) && isS(o[0]) && Number.isInteger(o[1]) && o[1] >= 0 && o[1] < d.p.length));
+}
+function applyQuiz(d){
+  PERSONAS = {}; d.p.forEach((p, k) => PERSONAS[k] = {emoji: p[0], name: p[1], desc: p[2], color: PAL[k % PAL.length]});
+  QUESTIONS = d.q.map(q => ({q: q[0], o: q[1].map(o => [o[0], String(o[1])])}));
+  TEXT.title = d.t; document.title = d.t; $("t1").textContent = d.t;
+  $("t2").textContent = QUESTIONS.length + " أسئلة بس، وهنقولك طلعت إيه. جاهز؟";
+}
+
+/* صفحة الإنشاء */
+let uid = 0;
+const rowsP = () => [...$("bp").children];
+const mk = (tag, cls, txt) => { const e = document.createElement(tag); e.className = cls; if (txt) e.textContent = txt; return e; };
+const inp = (cls, ph, max, tag) => { const e = mk(tag || "input", "fld " + cls); e.placeholder = ph; e.maxLength = max; return e; };
+function refreshSelects(){
+  const ps = rowsP();
+  document.querySelectorAll("#bq select").forEach(sel => {
+    const v = sel.value; sel.textContent = "";
+    ps.forEach((r, k) => { const o = document.createElement("option"); o.value = r.dataset.uid; o.textContent = (k + 1) + ". " + (r.querySelector(".pn").value || "شخصية " + (k + 1)); sel.appendChild(o); });
+    if ([...sel.options].some(o => o.value === v)) sel.value = v;
+  });
+}
+function addP(){
+  const r = mk("div", "blk"); r.dataset.uid = ++uid;
+  const a = inp("pe", "إيموجي 😀", 4), b = inp("pn", "اسم الشخصية", 40), c = inp("pd", "وصف الشخصية", 200, "textarea");
+  b.oninput = refreshSelects;
+  const x = mk("button", "btn alt sm", "حذف الشخصية"); x.type = "button";
+  x.onclick = () => { if (rowsP().length > 2) { r.remove(); refreshSelects(); } };
+  r.append(a, b, c, x); $("bp").appendChild(r); refreshSelects();
+}
+function addO(box){
+  const r = mk("div", "orow"), t = inp("ot", "نص الاختيار", 100), sel = mk("select", "fld os");
+  const x = mk("button", "btn alt sm", "×"); x.type = "button";
+  x.onclick = () => { if (box.children.length > 2) r.remove(); };
+  r.append(t, sel, x); box.appendChild(r); refreshSelects();
+}
+function addQ(){
+  const r = mk("div", "blk"), q = inp("qt", "نص السؤال", 150), box = mk("div", "obox");
+  const a = mk("button", "btn alt sm", "+ اختيار"); a.type = "button"; a.onclick = () => addO(box);
+  const x = mk("button", "btn alt sm", "حذف السؤال"); x.type = "button";
+  x.onclick = () => { if ($("bq").children.length > 1) r.remove(); };
+  r.append(q, box, a, x); $("bq").appendChild(r); addO(box); addO(box);
+}
+function openMake(){ if (!$("bp").children.length) { addP(); addP(); addQ(); } show("s-make"); window.scrollTo(0, 0); }
+let made = null;
+$("addp").onclick = addP; $("addq").onclick = addQ;
+$("mkgo").onclick = $("mkgo2").onclick = openMake;
+$("mkback").onclick = () => show("s-start");
+$("ledit").onclick = () => show("s-make");
+$("mk").onclick = async () => {
+  const fail = m => { $("err").textContent = m; }; fail("");
+  const t = $("bt").value.trim(); if (!t) return fail("اكتب اسم الاختبار");
+  const ps = rowsP(), ids = ps.map(r => r.dataset.uid);
+  const p = ps.map(r => [r.querySelector(".pe").value.trim() || "⭐", r.querySelector(".pn").value.trim(), r.querySelector(".pd").value.trim()]);
+  if (p.some(x => !x[1] || !x[2])) return fail("كمّل اسم ووصف كل شخصية");
+  const q = [...$("bq").children].map(r => [r.querySelector(".qt").value.trim(), [...r.querySelectorAll(".orow")].map(o => [o.querySelector(".ot").value.trim(), ids.indexOf(o.querySelector("select").value)])]);
+  if (q.some(x => !x[0] || x[1].some(o => !o[0] || o[1] < 0))) return fail("كمّل نص كل سؤال وكل اختيار");
+  made = {t, p, q}; const c = await enc(made); made.code = c;
+  const url = location.origin + location.pathname + "#quiz=" + c; $("lnk").value = url;
+  $("warn").textContent = url.length > 3000 ? "الرابط طويل شوية. لو ماتفتحش عند صاحبك، قلّل الأسئلة أو قصّر الرابط بموقع تقصير روابط." : "";
+  show("s-link"); window.scrollTo(0, 0);
+};
+$("lwa").onclick = () => window.open("https://wa.me/?text=" + encodeURIComponent("جرّب اختبار: " + made.t + "\n" + $("lnk").value), "_blank");
+$("lcp").onclick = async () => { try { await navigator.clipboard.writeText($("lnk").value); $("lcp").textContent = TEXT.copied; setTimeout(() => $("lcp").textContent = "انسخ الرابط", 1800); } catch (e) { $("lnk").select(); } };
+$("ltry").onclick = () => { code = made.code; applyQuiz(made); setHash(""); show("s-start"); window.scrollTo(0, 0); };
+
+/* عند فتح الموقع: اختبار مخصص و/أو نتيجة صاحب */
+(async () => {
+  const h = {}; location.hash.slice(1).split("&").forEach(x => { const k = x.indexOf("="); if (k > 0) h[x.slice(0, k)] = x.slice(k + 1); });
+  if (h.quiz) { try { const d = await dec(h.quiz); if (!valid(d)) throw 0; code = h.quiz; applyQuiz(d); } catch (e) { code = ""; } }
+  if (h.r && Object.prototype.hasOwnProperty.call(PERSONAS, h.r)) { $("note").textContent = TEXT.friendNote + PERSONAS[h.r].emoji + " " + PERSONAS[h.r].name + TEXT.friendNote2; $("note").classList.remove("hide"); }
+})();
+</script>
+</body>
+</html>
